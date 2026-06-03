@@ -596,6 +596,109 @@
   .delay-2 { animation-delay: .3s; }
   .delay-3 { animation-delay: .45s; }
 
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.visible, .reveal-left.visible {
+    opacity: 1;
+    transform: translate(0);
+  }
+
+  /* ── NAV SCROLLED ── */
+  nav { transition: box-shadow 0.3s ease; }
+  nav.scrolled { box-shadow: 0 4px 28px rgba(13,31,60,0.22); }
+  .nav-links a { position: relative; }
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 2px;
+    background: #0D0552;
+    border-radius: 2px;
+  }
+
+  /* ── BORNE CARD HOVER ── */
+  .borne-card { transition: transform 0.28s ease-out, box-shadow 0.28s ease-out; }
+  .borne-card:hover { transform: translateY(-8px); box-shadow: 0 24px 64px rgba(77,184,212,0.22); }
+  .borne-icon-wrap { transition: transform 0.28s ease-out; }
+  .borne-card:hover .borne-icon-wrap { transform: rotate(5deg) scale(1.12); }
+
+  /* ── AVANTAGE CARD HOVER ── */
+  .avantage-card { transition: transform 0.25s ease-out, box-shadow 0.25s ease-out; }
+  .avantage-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(13,31,60,0.1); }
+
+  /* ── CTA BUTTON PULSE ── */
+  @keyframes btnPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+  .btn-primary { animation: btnPulse 2.4s ease-in-out infinite; }
+  .btn-primary:hover { animation: none; transform: scale(1.06); }
+
+  /* ── SHIMMER ── */
+  .btn-cta-shimmer { position: relative; overflow: hidden; }
+  .btn-cta-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0% { left: -100%; }
+    35%, 100% { left: 160%; }
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    opacity: 0.45; cursor: pointer;
+    animation: scrollBounce 2.2s ease-in-out infinite;
+  }
+  .scroll-indicator span { font-size: .72rem; letter-spacing: .1em; color: #0D1F3C; font-weight: 600; }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(9px); }
+  }
+
+  /* ── COMPARE TABLE ROW REVEAL ── */
+  .compare-table tbody tr {
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .compare-table tbody tr.visible { opacity: 1; transform: translateX(0); }
+
+  /* ── MOBILE MENU SLIDE ── */
+  .mobile-menu {
+    transform-origin: top;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  /* ── PREFERS-REDUCED-MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal, .reveal-left { opacity: 1 !important; transform: none !important; }
+    .compare-table tbody tr { opacity: 1 !important; transform: none !important; }
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
@@ -711,6 +814,14 @@
   </div>
 </section>
 
+  </div>
+</section>
+<!-- SCROLL INDICATOR -->
+<a href="#solution" class="scroll-indicator" aria-label="Défiler">
+  <span>DÉFILER</span>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M5 11l5 5 5-5" stroke="#0D1F3C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
 <!-- WAVE -->
 <div class="wave-divider" style="background:var(--navy); margin-top:-2px;">
   <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;">
@@ -726,28 +837,28 @@
     <p class="section-lead">Dans un contexte où la gestion de l'eau devient un enjeu majeur, les gestionnaires d'espaces extérieurs font face à des défis quotidiens que BRIZZE résout durablement.</p>
   </div>
   <div class="problem-cards">
-    <div class="problem-card">
+    <div class="problem-card reveal" data-delay="0">
       <div class="problem-icon">💧</div>
       <div>
         <h4>Gaspillage d'eau</h4>
         <p>Les douches, rince pieds ou installations traditionnelles consomment des milliers de litres par an, créant boue et zones glissantes.</p>
       </div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal" data-delay="0.1">
       <div class="problem-icon">🏗️</div>
       <div>
         <h4>Plomberie coûteuse</h4>
         <p>Raccordement hydraulique, risques de fuite, hivernage : des contraintes techniques et financières importantes.</p>
       </div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal" data-delay="0.2">
       <div class="problem-icon">🌿</div>
       <div>
         <h4>Impact environnemental</h4>
         <p>En plus d'être gaspillée par tonnes, l'eau favorise l'acheminement de micropolluants affectant les écosystèmes marins et côtiers.</p>
       </div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal" data-delay="0.3">
       <div class="problem-icon">🧹</div>
       <div>
         <h4>Sable & dégradation des espaces</h4>
@@ -762,13 +873,13 @@
   <div class="bornes-header">
     <span class="section-tag">Nos Bornes</span>
     <h2 class="section-title" style="color:var(--white);">Quatre bornes,<br>un seul principe : l'air.</h2>
-    <p class="section-lead">Chaque borne est conçue pour un usage précis, robuste pour l'extérieur, et ne nécessite aucun raccordement hydraulique.<br><br>Nos bornes sont toutes équipées d'un bardage bois en Peuplier UE (Classe 3, PEFC/FSC, BB/BB).</p>
+    <p class="section-lead">Chaque borne est conçue pour un usage précis, robuste pour l'extérieur, et ne nécessite aucun raccordement hydraulique.<br><br>Toutes nos bornes intègrent un bardage en bois français, personnalisable avec du bois issu de votre territoire afin de s'intégrer harmonieusement à votre environnement.</p>
   </div>
 
   <div class="bornes-grid" style="grid-template-columns: repeat(2,1fr); gap:1.5rem;">
 
     <!-- Borne 1 -->
-    <div class="borne-card">
+    <div class="borne-card reveal" data-delay="0">
       <div class="borne-card-header">
         <div class="borne-number">01</div>
         <div class="borne-icon-wrap">🚿</div>
@@ -791,7 +902,7 @@
     </div>
 
     <!-- Borne 2 -->
-    <div class="borne-card">
+    <div class="borne-card reveal" data-delay="0.15">
       <div class="borne-card-header">
         <div class="borne-number">02</div>
         <div class="borne-icon-wrap">🏖️</div>
@@ -813,7 +924,7 @@
     </div>
 
     <!-- Borne 3 -->
-    <div class="borne-card">
+    <div class="borne-card reveal" data-delay="0.3">
       <div class="borne-card-header">
         <div class="borne-number">03</div>
         <div class="borne-icon-wrap">💨</div>
@@ -834,7 +945,7 @@
     </div>
 
     <!-- Borne 4 -->
-    <div class="borne-card">
+    <div class="borne-card reveal" data-delay="0.45">
       <div class="borne-card-header">
         <div class="borne-number">04</div>
         <div class="borne-icon-wrap">
@@ -984,32 +1095,32 @@
     <h2 class="section-title">Simple. Durable.<br>Rentable.</h2>
   </div>
   <div class="avantages-grid">
-    <div class="avantage-card">
+    <div class="avantage-card reveal" data-delay="0">
       <div class="avantage-icon">🌱</div>
       <h4>Engagement écologique fort</h4>
       <p>Valorisez votre démarche durable auprès d'une clientèle sensible et répondez aux enjeux environnementaux actuels.</p>
     </div>
-    <div class="avantage-card">
+    <div class="avantage-card reveal" data-delay="0.1">
       <div class="avantage-icon">💰</div>
       <h4>Réduction des coûts immédiats</h4>
       <p>Moins de nettoyage, moins d'entretien et zéro facture d'eau liée à vos installations. Une économie concrète, instantanée et mesurable.</p>
     </div>
-    <div class="avantage-card">
+    <div class="avantage-card reveal" data-delay="0.2">
       <div class="avantage-icon">🌊</div>
       <h4>Zones et espaces propres</h4>
       <p>Préservez la propreté et la sécurité de vos espaces. Vos sols restent secs et sains en toute circonstance.</p>
     </div>
-    <div class="avantage-card">
+    <div class="avantage-card reveal" data-delay="0.3">
       <div class="avantage-icon">⚡</div>
       <h4>Installation en moins d'un jour</h4>
       <p>Fixation sur plot béton, branchement 220V standard. Aucun terrassement, aucun plombier nécessaire.</p>
     </div>
-    <div class="avantage-card">
+    <div class="avantage-card reveal" data-delay="0.4">
       <div class="avantage-icon">🔧</div>
       <h4>Équipement & maintenance de haute qualité</h4>
       <p>Nos équipements sont conçus pour résister aux intempéries, au sel et aux UV — sans risque de gel ni de fuite.<br><br>Notre service de maintenance assure un suivi complet, tant préventif que curatif.</p>
     </div>
-    <div class="avantage-card">
+    <div class="avantage-card reveal" data-delay="0.5">
       <div class="avantage-icon">⭐</div>
       <h4>Expérience client premium</h4>
       <p>Un service innovant durable qui se démarque et fidélise. Vos clients vivent une expérience écoresponsable — et repartent secs, propres, satisfaits.</p>
@@ -1070,7 +1181,7 @@
   <h2>Changez d'ère :<br>Choisissez BRIZZE.</h2>
   <p>L'innovation au service du confort… et de la planète.</p>
   <div class="cta-btns">
-    <a href="#" onclick="window.location.href=['mail','to:contact@brizze.fr'].join('');return false;" class="btn-white">Demander un devis</a>
+    <a href="#" onclick="window.location.href=['mail','to:contact@brizze.fr'].join('');return false;" class="btn-white btn-cta-shimmer">Demander un devis</a>
   </div>
   <div class="cta-contacts">
     <div class="cta-contact-item">
@@ -1083,7 +1194,7 @@
     </div>
     <div class="cta-contact-item">
       <div class="label">Email</div>
-      <div class="value"><a href="tel:contact@brizze.fr">contact@brizze.fr</a></div>
+      <div class="value"><a href="/cdn-cgi/l/email-protection#85e6eaebf1e4e6f1c5e7f7ecffffe0abe3f7"><span class="__cf_email__" data-cfemail="11727e7f65707265517363786b6b743f7763">[email&#160;protected]</span></a></div>
     </div>
   </div>
 </section>
@@ -1097,29 +1208,97 @@
       <div class="footer-tagline">Une solution innovante et écoresponsable.</div>
     </div>
   </div>
-  <p>© 2026 BRIZZE �  <p>© 2026 BRIZZE — Tous droits réservés</p>
+  <p>© 2026 BRIZZE — Tous droits réservés</p>
 </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+  /* ── HAMBURGER ── */
   var btn = document.querySelector('.hamburger');
   var menu = document.getElementById('mobileMenu');
-  if (!btn || !menu) return;
-  btn.addEventListener('click', function() {
-    if (menu.style.display === 'flex') {
-      menu.style.display = 'none';
-      btn.classList.remove('open');
-    } else {
-      menu.style.display = 'flex';
-      btn.classList.add('open');
-    }
-  });
-  document.querySelectorAll('.mobile-menu a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      menu.style.display = 'none';
-      btn.classList.remove('open');
+  if (btn && menu) {
+    btn.addEventListener('click', function() {
+      var open = menu.style.display === 'flex';
+      menu.style.display = open ? 'none' : 'flex';
+      btn.classList.toggle('open', !open);
     });
-  });
+    document.querySelectorAll('.mobile-menu a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        menu.style.display = 'none';
+        btn.classList.remove('open');
+      });
+    });
+  }
+
+  /* ── NAV SHADOW ON SCROLL ── */
+  var nav = document.querySelector('nav');
+  window.addEventListener('scroll', function() {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── ACTIVE NAV LINK ── */
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', function() {
+    var current = '';
+    sections.forEach(function(s) {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(function(a) {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  }, { passive: true });
+
+  /* ── SCROLL REVEAL (IntersectionObserver) ── */
+  var revealEls = document.querySelectorAll('.reveal, .reveal-left');
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var delay = parseFloat(entry.target.dataset.delay || 0) * 1000;
+        setTimeout(function() {
+          entry.target.classList.add('visible');
+        }, delay);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(function(el) { revealObserver.observe(el); });
+
+  /* ── COMPARE TABLE ROW REVEAL ── */
+  var rows = document.querySelectorAll('.compare-table tbody tr');
+  var rowObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var i = Array.from(rows).indexOf(entry.target);
+        setTimeout(function() {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        rowObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  rows.forEach(function(row) { rowObserver.observe(row); });
+
+  /* ── PUBLIC CHIPS CASCADE ── */
+  var chips = document.querySelectorAll('.public-chip');
+  var chipObserver = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      chips.forEach(function(chip, i) {
+        chip.style.opacity = '0';
+        chip.style.transform = 'translateY(20px)';
+        chip.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        setTimeout(function() {
+          chip.style.opacity = '1';
+          chip.style.transform = 'translateY(0)';
+        }, i * 70);
+      });
+      chipObserver.disconnect();
+    }
+  }, { threshold: 0.2 });
+  if (chips.length) chipObserver.observe(chips[0].parentElement);
+
 });
 </script>
 </body>
